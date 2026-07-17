@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import city from "../assets/city.png"
 
 export default function Searchbar(){
     return (
@@ -6,7 +7,7 @@ export default function Searchbar(){
             <div className="relative h-125 overflow-hidden">
             
                 <img 
-                    src="/city.png" 
+                    src={city}
                     alt="bgcity" 
                     className="h-full w-full object-cover opacity-85"
                 />

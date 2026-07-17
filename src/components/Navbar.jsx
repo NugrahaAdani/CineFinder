@@ -1,3 +1,4 @@
+import logo from "../assets/logo.png"
 import { useEffect, useState } from "react"
 
 export default function Navbar() {
@@ -28,7 +29,7 @@ export default function Navbar() {
 
                 <div className="flex items-center ">
                     <img 
-                        src="/logo.png" 
+                        src={logo}
                         alt="Logo" 
                         className="m-2 p-1 w-10 object-cover" 
                     />

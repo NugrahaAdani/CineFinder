@@ -1,10 +1,12 @@
+import logo from "../assets/logo.png"
+
 export default function Footer(){
     return (
         <>
-            <footer className=" relative flex border-gray-50 border-t max-w-full h-13 px-4 items-center">
+            <footer className=" relative flex border-[#3D0000] border-t max-w-full h-18 px-4 mt-4 items-center">
                 <div className="flex items-center">
                     <img 
-                        src="/logo.png" 
+                        src={logo}
                         alt="Logo" 
                         className="m-2 p-1 w-10 object-cover" 
                     />
@@ -14,7 +16,7 @@ export default function Footer(){
                     </p>
                 </div>
                 <p className="absolute left-1/2 -translate-x-1/2 text-sm text-white">
-                    &copy; 2024 CineFinder. All rights reserved. Data provide by OMDb.
+                    &copy; 2024 CineFinder. All rights reserved. Data provide by TMDb.
                 </p>
             </footer>
         </>
