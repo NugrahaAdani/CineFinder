@@ -6,7 +6,7 @@ import ErrorMessage from "./ErrorMessage";
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
-export default function MovieList(){
+export default function TrendingMovies(){
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -42,16 +42,30 @@ export default function MovieList(){
                 Trending Movies
             </h2>
 
-            <div className="mx-10 mt-6 grid grid-cols-1 gap-x-3 gap-y-4 justify-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {movies.map((movie) => {
+            <div
+            className="mx-10 mt-6 flex gap-4
+                overflow-x-auto overscroll-x-contain
+                scroll-smooth snap-x snap-mandatory
+                pb-4
+                scrollbar:none
+                [&::-webkit-scrollbar]:hidden
+            "
+            >
+                    {movies.map((movie) => {
                     const year = movie.release_date?.slice(0, 4) || "N/A";
                     const rating = Number(movie.vote_average || 0).toFixed(1);
 
                     return (
                         <article
                             key={movie.id}
-                            className="relative aspect-2/3 w-full max-w-58 overflow-hidden rounded-xl bg-zinc-900 shadow-lg transition-all duration-300 hover:scale-107"
-                            >
+                            className="relative aspect-2/3
+                                w-52 shrink-0 snap-start
+                                overflow-hidden rounded-xl
+                                bg-zinc-900 shadow-lg
+                                transition-all duration-300
+                                sm:w-56
+                                hover:scale-105"
+                        >
                             {movie.poster_path ? (
                                 <img
                                 src={`${IMAGE_URL}${movie.poster_path}`}

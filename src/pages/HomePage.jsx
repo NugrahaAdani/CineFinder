@@ -5,11 +5,11 @@ import Footer from "../components/Footer";
 
 export default function HomePage(){
     return (
-        <>
+        <main>
             <Navbar />
             <Searchbar />
             <MovieList />
             <Footer />
-        </>
+        </main>
     )
 }
