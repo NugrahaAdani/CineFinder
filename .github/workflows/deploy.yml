@@ -43,7 +43,7 @@ jobs:
       - name: Build application
         run: pnpm build
         env:
-          VITE_TMDB_TOKEN: ${{ secrets.VITE_TMDB_API_KEY }}
+          VITE_TMDB_API_KEY: ${{ secrets.VITE_TMDB_API_KEY }}
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
