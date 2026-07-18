@@ -40,6 +40,15 @@ jobs:
       - name: Run ESLint
         run: pnpm lint
 
+      - name: Validate TMDB API key
+        env:
+          VITE_TMDB_API_KEY: ${{ secrets.VITE_TMDB_API_KEY }}
+        run: |
+          if [ -z "$VITE_TMDB_API_KEY" ]; then
+            echo "::error::VITE_TMDB_API_KEY is unavailable to the build job"
+            exit 1
+          fi
+
       - name: Build application
         run: pnpm build
         env:
