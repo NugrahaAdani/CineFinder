@@ -3,6 +3,7 @@ import { Star, Heart } from 'lucide-react';
 import { getTrendingMovies } from "../services/tmdbApi"
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
+import { Link } from "react-router-dom";
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -52,19 +53,25 @@ export default function MovieList(){
                             key={movie.id}
                             className="relative aspect-2/3 w-full max-w-58 overflow-hidden rounded-xl bg-zinc-900 shadow-lg transition-all duration-300 hover:scale-107"
                             >
-                            {movie.poster_path ? (
-                                <img
-                                src={`${IMAGE_URL}${movie.poster_path}`}
-                                alt={`Poster ${movie.title}`}
-                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                                />
-                            ) : (
-                                <div className="flex h-full items-center justify-center text-zinc-400">
-                                Poster tidak tersedia
-                                </div>
-                            )}
+                            <Link
+                                to={`/movie/${movie.id}`}
+                                aria-label={`Lihat detail ${movie.title}`}
+                                className="block h-full w-full"
+                            >
+                                {movie.poster_path ? (
+                                    <img
+                                    src={`${IMAGE_URL}${movie.poster_path}`}
+                                    alt={`Poster ${movie.title}`}
+                                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                                    />
+                                ) : (
+                                    <div className="flex h-full items-center justify-center text-zinc-400">
+                                    Poster tidak tersedia
+                                    </div>
+                                )}
 
-                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/10 to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/10 to-transparent" />
+                            </Link>
 
                             <button
                                 type="button"

@@ -35,3 +35,19 @@ export async function getSearchMovies(query){
   return data.results ?? []
 
 }
+
+export async function getMovieDetail(id){
+  if (!apiKey) {
+    throw new Error("VITE_TMDB_API_KEY is not configured");
+  }
+
+  const response = await fetch(
+    `${BASE_URL}/movie/${id}?api_key=${apiKey}&language=id-ID&include_adult=true`
+  );
+
+  if (!response.ok) {
+    throw new Error(`TMDB request failed (${response.status})`);
+  }
+
+  return response.json();
+}

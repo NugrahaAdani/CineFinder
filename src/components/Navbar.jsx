@@ -1,5 +1,7 @@
+import { House, BookHeart } from "lucide-react"
 import logo from "../assets/logo.png"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -42,9 +44,20 @@ export default function Navbar() {
                 </p>
             </div>
             
-            <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-6">
-                <p className="text-white">Home</p>
-                <p className="text-white">Favorites</p>
+            <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-8">
+                <Link
+                    to="/"
+                    className="flex gap-1 text-white hover:text-[#FF0000] items-center">
+                    <House size={20} className="shrink-0"/>
+                    Home
+                </Link>
+                
+                <Link
+                    to="/favorites"
+                    className="flex gap-1 text-white hover:text-[#FF0000] items-center">
+                    <BookHeart size={20} className="shrink-0"/>
+                    Favorites
+                </Link>
             </div>
             
             <div className="mr-2">

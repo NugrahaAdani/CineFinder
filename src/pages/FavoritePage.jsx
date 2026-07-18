@@ -4,10 +4,10 @@ import Favorite from "../components/Favorite";
 
 export default function HomePage(){
     return (
-        <>
+        <main>
             <Navbar />
             <Favorite />
             <Footer />
-        </>
+        </main>
     )
 }
