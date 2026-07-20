@@ -4,14 +4,16 @@ import { getTrendingMovies } from "../services/tmdbApi"
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
 import { Link } from "react-router-dom";
+import { useFavorites } from "../context/FavoriteContext.jsx";
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
 export default function TrendingMovies(){
+    const { toggleFavorite, isFavorite } = useFavorites();
+
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [favoriteIds, setFavoriteIds] = useState([])
 
     useEffect(() => {
         async function loadMovies() {
@@ -36,18 +38,8 @@ export default function TrendingMovies(){
         return <ErrorMessage message={error} />;
     }
 
-    function toggleFavorite(movieId) {
-        setFavoriteIds((currentIds) => {
-            if (currentIds.includes(movieId)) {
-            return currentIds.filter((id) => id !== movieId);
-            }
-
-            return [...currentIds, movieId];
-        });
-    }
-
     return (
-        <section className="min-h-screen w-full bg-black py-6">
+        <section className="max-h-screen w-full bg-black py-2">
 
             <h2 className="mx-10 text-xl font-bold text-white">
                 <span className="text-2xl font-bold text-[#950101]">| </span>
@@ -66,7 +58,7 @@ export default function TrendingMovies(){
                     {movies.map((movie) => {
                     const year = movie.release_date?.slice(0, 4) || "N/A";
                     const rating = Number(movie.vote_average || 0).toFixed(1);
-                    const isFavorite = favoriteIds.includes(movie.id);
+                    const favorite = movie?.id ? isFavorite(movie.id) : false;
 
                     return (
                         <article
@@ -103,12 +95,13 @@ export default function TrendingMovies(){
                             
                             <button
                                 type="button"
+                                aria-pressed={favorite}
                                 aria-label={
-                                    isFavorite
-                                        ? `Hapus ${movie.title} dari favorit`
-                                        : `Tambahkan ${movie.title} ke favorit`}
-                                aria-pressed={isFavorite}
-                                onClick={() => toggleFavorite(movie.id)}
+                                    favorite    
+                                    ? `Hapus ${movie.title} dari favorite`
+                                    : `Tambah ${movie.title} ke favorite`
+                                }
+                                onClick={() => toggleFavorite(movie)}
                                 className="
                                     group absolute right-4 top-4 z-10 flex size-10 
                                     items-center justify-center rounded-full border
@@ -116,14 +109,15 @@ export default function TrendingMovies(){
                                     backdrop-blur-md transition hover:scale-110"
                             >
                                 <Heart
-                                size={20}
-                                className={`transition-all group-hover:scale-110
-                                    ${
-                                        isFavorite 
-                                            ? "fill-red-400" 
-                                            : "fill-transparent text-white group-hover:text-red-400"
-                                    }
-                                `}/>
+                                    size={20}
+                                    className={`transition-all group-hover:scale-110
+                                        ${
+                                            favorite 
+                                                ? "fill-red-400 text-red-400" 
+                                                : "fill-transparent text-white group-hover:text-red-400"
+                                        }
+                                    `}
+                                />
                             </button>
 
                             <h3 className="absolute bottom-12 left-4 right-4 z-10 line-clamp-2 text-left text-lg font-bold leading-tight text-white">

@@ -3,7 +3,7 @@ const apiKey = import.meta.env.VITE_TMDB_API_KEY
 
 export async function getTrendingMovies() {
   if (!apiKey) {
-    throw new Error('VITE_TMDB_TOKEN is not configured')
+    throw new Error('VITE_TMDB_API_KEY is not configured')
   }
 
   const response = await fetch(
@@ -20,7 +20,7 @@ export async function getTrendingMovies() {
 
 export async function getSearchMovies(query){
   if(!apiKey){
-    throw new Error('VITE_TMDB_TOKEN is not configured');
+    throw new Error('VITE_TMDB_API_KEY is not configured');
   }
 
   const response = await fetch(

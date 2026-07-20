@@ -4,21 +4,23 @@ import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 import { getMovieDetail } from "../services/tmdbApi";
 import { Star, Heart } from "lucide-react";
+import { useFavorites } from "../context/FavoriteContext.jsx";
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const BACKDROP_URL = "https://image.tmdb.org/t/p/w1280"
 
 export default function DetailMovie(){
+    const { toggleFavorite, isFavorite } = useFavorites();
     const { id } = useParams();
 
     const [movie, setMovie] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [isFavorite, setIsFavorite] = useState(false)
 
     const year = movie.release_date?.slice(0, 4) || "N/A";
     const rating = Number(movie.vote_average || 0).toFixed(1);
-   
+    const favorite = movie?.id ? isFavorite(movie.id) : false;
+    
     function formatRuntime(runtime) {
         if (!runtime) return "Durasi tidak tersedia";
 
@@ -60,7 +62,7 @@ export default function DetailMovie(){
     }, [id]);
 
     return(
-        <section className="min-h-screen overflow-hidden bg-blac">
+        <section className="min-h-screen overflow-hidden bg-black">
             {loading && <Loading message="Memuat detail film..." />}
 
             {error && <ErrorMessage message={error} />}
@@ -96,7 +98,7 @@ export default function DetailMovie(){
                             alt={`Poster ${movie.poster_path}`} 
                             className="
                                 w-48 shrink-0 rounded-xl object-cover
-                                shadow-2xl shadow-black/80 ring-1
+                                shadow-md shadow-red-500 ring-1
                                 ring-white/20 sm:w-64"
                             />
                         )}
@@ -148,11 +150,15 @@ export default function DetailMovie(){
 
                                 <button 
                                     type="button"
-                                    aria-label="Add to favorite"
-                                    aria-pressed={isFavorite}
-                                    onClick={() => setIsFavorite((current) => !current)}
+                                    aria-pressed={favorite}
+                                    aria-label={
+                                        favorite    
+                                        ? `Hapus ${movie.title} dari favorite`
+                                        : `Tambah ${movie.title} ke favorite`
+                                    }
+                                    onClick={() => toggleFavorite(movie)}
                                     className="
-                                    group flex text-white bg-black/60 font-sm font-semibold 
+                                    group flex text-white bg-black/60 text-sm font-semibold 
                                     rounded-lg px-4 py-1 mt-1 w-fit items-center transition-all 
                                     hover:scale-105 cursor-pointer">
                                     
@@ -160,17 +166,25 @@ export default function DetailMovie(){
                                         size={18} 
                                         className={`transition-all group-hover:scale-110
                                             ${
-                                                isFavorite 
-                                                    ? "fill-red-400" 
+                                                favorite 
+                                                    ? "fill-red-400 text-red-400" 
                                                     : "fill-transparent text-white group-hover:text-red-400"
                                             }
                                         `}/>
-                                    <span className="text-xs font-bold ml-1">Add to favorite</span>
+                                    <span className="ml-1 text-xs font-bold">
+                                        {favorite ? "Remove from favorite" : "Add to favorite"}
+                                    </span>
                                 </button>
 
                             </div>
-                                <div className="flex flex-col mt-2 bg-black h-20 w-full ">
-                                    
+
+                                <div className="flex flex-col shadow-sm shadow-red-300 py-3 px-2 mt-2 bg-black/50 rounded-xl h-fit min-w-3xl ">
+                                    <h2 className="py-2 ml-3 font-bold text-3xl">
+                                        Synopsis
+                                    </h2>
+                                    <p className="ml-3 mr-1 my-2">
+                                        {movie.overview}
+                                    </p>
                                 </div>
 
                         </div>

@@ -38,7 +38,7 @@ export default function Searchbar(){
                         </p>
 
                         <form
-                            onClick={handleSearch}
+                            onSubmit={handleSearch}
                             className="
                                 flex mx-auto mt-8 max-w-2xl overflow-hidden rounded-full
                                 border border-[#3D0000] bg-black/70 shadow-lg justify-between

@@ -59,10 +59,6 @@ export default function Navbar() {
                     Favorites
                 </Link>
             </div>
-            
-            <div className="mr-2">
-                <p className="text-white">Icon</p>
-            </div>
         </header>
     )
 }

@@ -5,10 +5,12 @@ import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 import { Search, X, Star, Heart } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
+import { useFavorites } from "../context/FavoriteContext.jsx";
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
 export default function SearchBody(){
+    const { toggleFavorite, isFavorite } = useFavorites();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [initialQuery] = useState(() => {
@@ -150,7 +152,8 @@ export default function SearchBody(){
                         {movies.map((movie) => {
                             const year = movie.release_date?.slice(0, 4) || "N/A";
                             const rating = Number(movie.vote_average || 0).toFixed(1);
-                            
+                            const favorite = movie?.id ? isFavorite(movie.id) : false;
+
                             return(
 
                                 <article
@@ -180,12 +183,24 @@ export default function SearchBody(){
 
                                     <button
                                         type="button"
-                                        aria-label={`Tambahkan ${movie.title} ke favorit`}
+                                        aria-pressed={favorite}
+                                        aria-label={
+                                            favorite    
+                                            ? `Hapus ${movie.title} dari favorite`
+                                            : `Tambah ${movie.title} ke favorite`
+                                        }
+                                        onClick={() => toggleFavorite(movie)}
                                         className="group absolute right-4 top-4 z-10 flex size-10 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-lg backdrop-blur-md transition hover:scale-110 hover:text-red-400"
                                     >
                                         <Heart
-                                        size={20}
-                                        className="transition-colors group-hover:fill-red-400"
+                                            size={20}
+                                            className={`transition-all group-hover:scale-110
+                                                ${
+                                                    favorite 
+                                                        ? "fill-red-400 text-red-400" 
+                                                        : "fill-transparent text-white group-hover:text-red-400"
+                                                }
+                                            `}
                                         />
                                     </button>
 
